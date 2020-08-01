@@ -11,7 +11,7 @@ import (
 
 const extension = ".txt"
 
-var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
+var templates = template.Must(template.ParseFiles("edit.html", "view.html", "delete.html"))
 
 type page struct {
 	Title string
@@ -63,7 +63,6 @@ func renderTemplate(w http.ResponseWriter, templ string, p *page) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request) {

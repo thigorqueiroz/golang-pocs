@@ -11,6 +11,8 @@ import (
 
 const extension = ".txt"
 
+var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
+
 type page struct {
 	Title string
 	Body  []byte
@@ -57,15 +59,11 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func renderTemplate(w http.ResponseWriter, templ string, p *page) {
-	t, err := template.ParseFiles(templ + ".html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	err = t.Execute(w, p)
+	err := templates.ExecuteTemplate(w, templ+".html", p)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request) {
